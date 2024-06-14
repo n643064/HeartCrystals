@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "heart_crystals",
+  "version": "${version}",
+  "name": "Heart Crystals",
+  "description": "Adds Heart Crystals, which increase player health when consumed",
+  "authors": [
+    "n643064"
+  ],
+  "contact": {
+    "homepage": "https://github.com/n643064/HeartCrystals",
+    "sources": "https://github.com/n643064/HeartCrystals"
+  },
+  "license": "GPLv3",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "n643064.heart_crystals_fabric.HeartCrystalsFabric"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.20.1"
+  }
+}

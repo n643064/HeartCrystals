@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "DDD",
+    "DDD",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "heart_crystals:heart_crystal_dust"
+    }
+  },
+  "result": {
+    "item": "heart_crystals:heart_crystal_shard",
+    "count": 1
+  }
+}

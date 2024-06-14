@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+#issueTrackerURL = ""
+license = "GPLv3"
+
+[[mods]]
+modId = "heart_crystals"
+version = "${version}"
+displayName = "Heart Crystals"
+authors = "n643064"
+description = '''
+Adds Heart Crystals, which increase player health when consumed
+'''
+logoFile = "icon.png"
+
+[[dependencies.heart_crystals]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.heart_crystals]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"
