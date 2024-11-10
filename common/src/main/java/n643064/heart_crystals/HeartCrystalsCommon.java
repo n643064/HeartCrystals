@@ -18,16 +18,16 @@ public class HeartCrystalsCommon
 	public static final HashSet<ResourceLocation> DUNGEON_LOOT = new HashSet<>();
 	static
 	{
-		DUNGEON_LOOT.add(BuiltInLootTables.ABANDONED_MINESHAFT);
-		DUNGEON_LOOT.add(BuiltInLootTables.SIMPLE_DUNGEON);
-		DUNGEON_LOOT.add(BuiltInLootTables.BURIED_TREASURE);
-		DUNGEON_LOOT.add(BuiltInLootTables.END_CITY_TREASURE);
-		DUNGEON_LOOT.add(BuiltInLootTables.DESERT_PYRAMID);
-		DUNGEON_LOOT.add(BuiltInLootTables.JUNGLE_TEMPLE);
-		DUNGEON_LOOT.add(BuiltInLootTables.WOODLAND_MANSION);
-		DUNGEON_LOOT.add(BuiltInLootTables.BASTION_BRIDGE);
-		DUNGEON_LOOT.add(BuiltInLootTables.BASTION_TREASURE);
-		DUNGEON_LOOT.add(BuiltInLootTables.BASTION_OTHER);
+		DUNGEON_LOOT.add(BuiltInLootTables.ABANDONED_MINESHAFT.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.SIMPLE_DUNGEON.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.BURIED_TREASURE.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.END_CITY_TREASURE.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.DESERT_PYRAMID.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.JUNGLE_TEMPLE.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.WOODLAND_MANSION.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.BASTION_BRIDGE.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.BASTION_TREASURE.location());
+		DUNGEON_LOOT.add(BuiltInLootTables.BASTION_OTHER.location());
 	}
 
 	public static void setupNewPlayer(String name, HealthState state, Player player)

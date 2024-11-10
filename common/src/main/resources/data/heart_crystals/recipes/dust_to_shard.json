@@ -12,7 +12,7 @@
     }
   },
   "result": {
-    "item": "heart_crystals:heart_crystal_shard",
+    "id": "heart_crystals:heart_crystal_shard",
     "count": 1
   }
 }

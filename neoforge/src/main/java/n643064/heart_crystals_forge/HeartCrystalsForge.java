@@ -3,6 +3,7 @@ package n643064.heart_crystals_forge;
 import n643064.heart_crystals.HealthState;
 import n643064.heart_crystals.HeartCrystalItem;
 import n643064.heart_crystals.HeartCrystalsCommon;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,16 +14,15 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Objects;
 
@@ -33,10 +33,10 @@ import static n643064.heart_crystals.HeartCrystalsCommon.*;
 @Mod(MODID)
 public class HeartCrystalsForge
 {
-    public HeartCrystalsForge()
+    public HeartCrystalsForge(IEventBus modBus)
     {
-        MinecraftForge.EVENT_BUS.register(new ForgeEvents());
-        FMLJavaModLoadingContext.get().getModEventBus().register(new ModEvents());
+        NeoForge.EVENT_BUS.register(new NeoForgeEvents());
+        modBus.register(new ModEvents());
         HeartCrystalsCommon.init();
     }
 
@@ -50,8 +50,8 @@ public class HeartCrystalsForge
         @SubscribeEvent
         public void register(RegisterEvent event)
         {
-
-            event.register(ForgeRegistries.ITEMS.getRegistryKey(), helper ->
+            System.out.println("register event");
+            event.register(BuiltInRegistries.ITEM.key(), helper ->
             {
                 HEART_CRYSTAL_DUST = new Item(new Item.Properties()
                     .rarity(Rarity.UNCOMMON)
@@ -64,9 +64,9 @@ public class HeartCrystalsForge
                         .rarity(Rarity.EPIC)
                         .stacksTo(64));
 
-                helper.register(new ResourceLocation(MODID, "heart_crystal_dust"), HEART_CRYSTAL_DUST);
-                helper.register(new ResourceLocation(MODID, "heart_crystal_shard"), HEART_CRYSTAL_SHARD);
-                helper.register(new ResourceLocation(MODID, "heart_crystal"), HEART_CRYSTAL);
+                helper.register(ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal_dust"), HEART_CRYSTAL_DUST);
+                helper.register(ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal_shard"), HEART_CRYSTAL_SHARD);
+                helper.register(ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal"), HEART_CRYSTAL);
                 SHARD_POOL = new LootPool.Builder().add(LootItem.lootTableItem(HEART_CRYSTAL_SHARD)).setRolls(UniformGenerator.between(0, 4)).build();
             });
         }
@@ -83,7 +83,7 @@ public class HeartCrystalsForge
         }
     }
 
-    public class ForgeEvents
+    public class NeoForgeEvents
     {
         @SubscribeEvent
         public void loadLootTables(LootTableLoadEvent event)

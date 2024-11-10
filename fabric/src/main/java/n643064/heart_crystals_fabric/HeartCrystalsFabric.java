@@ -7,7 +7,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -43,9 +43,9 @@ public class HeartCrystalsFabric implements ModInitializer
     public void onInitialize()
     {
         HeartCrystalsCommon.init();
-        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(MODID, "heart_crystal_dust"), HEART_CRYSTAL_DUST);
-        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(MODID, "heart_crystal_shard"), HEART_CRYSTAL_SHARD);
-        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(MODID, "heart_crystal"), HEART_CRYSTAL);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal_dust"), HEART_CRYSTAL_DUST);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal_shard"), HEART_CRYSTAL_SHARD);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal"), HEART_CRYSTAL);
 
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries ->
@@ -59,9 +59,9 @@ public class HeartCrystalsFabric implements ModInitializer
                 .setRolls(UniformGenerator.between(0, 4))
                 .with(LootItem.lootTableItem(HEART_CRYSTAL_SHARD).build());
 
-        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) ->
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) ->
         {
-            if (CONFIG.addHeartCrystalShardsToDungeonLoot() && DUNGEON_LOOT.contains(id))
+            if (CONFIG.addHeartCrystalShardsToDungeonLoot() && DUNGEON_LOOT.contains(key))
             {
                 tableBuilder.withPool(loot);
             }

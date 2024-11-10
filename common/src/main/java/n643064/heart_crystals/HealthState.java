@@ -1,7 +1,10 @@
 package n643064.heart_crystals;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.datafix.DataFixTypes;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 
@@ -21,8 +24,9 @@ public class HealthState extends SavedData
          map = new HashMap<>();
     }
 
+
     @Override
-    public CompoundTag save(CompoundTag nbt)
+    public CompoundTag save(CompoundTag nbt, HolderLookup.Provider provider)
     {
         for (String s : map.keySet())
         {
@@ -44,7 +48,10 @@ public class HealthState extends SavedData
     public static HealthState get(MinecraftServer server)
     {
         DimensionDataStorage manager = server.overworld().getDataStorage();
-        return manager.computeIfAbsent(HealthState::fromNbt, HealthState::new, ID);
+        var factory = new SavedData.Factory<>(
+                HealthState::new,
+                (tag, prov) -> HealthState.fromNbt(tag), DataFixTypes.PLAYER);
+        return manager.computeIfAbsent(factory, ID);
     }
 
 }

@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[1,)"
 #issueTrackerURL = ""
 license = "GPLv3"
 
@@ -14,9 +14,9 @@ Adds Heart Crystals, which increase player health when consumed
 logoFile = "icon.png"
 
 [[dependencies.heart_crystals]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
-versionRange = "[47,)"
+versionRange = "[1,)"
 ordering = "NONE"
 side = "BOTH"
 
