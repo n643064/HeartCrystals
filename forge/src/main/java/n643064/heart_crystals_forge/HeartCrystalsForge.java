@@ -132,7 +132,7 @@ public class HeartCrystalsForge
                     state.map.put(s, v);
                 } else
                 {
-                    v = Math.max(1, state.map.get(s) - CONFIG.lifeLostOnDeath());
+                    v = Math.max(CONFIG.canLoseLifeBeneathStarterLife()? 1 : CONFIG.starterLife(), state.map.get(s) - CONFIG.lifeLostOnDeath());
                     state.map.put(s, v);
                 }
                 Objects.requireNonNull(p.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(v);
