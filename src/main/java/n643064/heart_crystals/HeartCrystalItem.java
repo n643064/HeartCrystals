@@ -3,15 +3,18 @@ package n643064.heart_crystals;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -26,14 +29,14 @@ public class HeartCrystalItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand)
+    public @NotNull InteractionResult use(Level level, Player player, @NotNull InteractionHand interactionHand)
     {
         final ItemStack stack = player.getItemInHand(interactionHand);
-        if (level.isClientSide)
+        if (level.isClientSide())
         {
-            return InteractionResultHolder.fail(stack);
+            return InteractionResult.FAIL;
         }
-        final HealthState state = HealthState.get(Objects.requireNonNull(player.getServer()));
+        final HealthData state = HealthData.get((ServerLevel) player.level());
         final String name = player.getScoreboardName();
         final int v;
         if (state.map.containsKey(name))
@@ -50,16 +53,16 @@ public class HeartCrystalItem extends Item
             state.setDirty();
             Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(Math.max(1, v));
             stack.shrink(1);
-            player.playNotifySound(SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.PLAYERS, 0.8f, 2f);
-            return InteractionResultHolder.success(stack);
+            level.playSound(null, player.blockPosition(), SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.PLAYERS, 0.5f, 2f);
+            return InteractionResult.SUCCESS;
         }
-        player.displayClientMessage(Component.translatable("heart_crystals.limit_reached").withStyle(ChatFormatting.DARK_RED), true);
-        return InteractionResultHolder.fail(stack);
+        player.sendOverlayMessage(Component.translatable("heart_crystals.limit_reached").withStyle(ChatFormatting.DARK_RED));
+        return InteractionResult.FAIL;
     }
 
 
     @Override
-    public boolean isFoil(ItemStack itemStack)
+    public boolean isFoil(@NotNull ItemStack itemStack)
     {
         return true;
     }

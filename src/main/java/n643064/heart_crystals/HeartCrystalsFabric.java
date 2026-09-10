@@ -1,16 +1,15 @@
-package n643064.heart_crystals_fabric;
+package n643064.heart_crystals;
 
-import n643064.heart_crystals.HealthState;
-import n643064.heart_crystals.HeartCrystalItem;
-import n643064.heart_crystals.HeartCrystalsCommon;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -31,24 +30,27 @@ public class HeartCrystalsFabric implements ModInitializer
 
     public static final Item HEART_CRYSTAL_DUST = new Item(new Item.Properties()
             .rarity(Rarity.UNCOMMON)
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MODID, "heart_crystal_dust")))
             .stacksTo(64));
     public static final Item HEART_CRYSTAL_SHARD = new Item(new Item.Properties()
             .rarity(Rarity.RARE)
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MODID, "heart_crystal_shard")))
             .stacksTo(64));
     public static final HeartCrystalItem HEART_CRYSTAL = new HeartCrystalItem(new Item.Properties()
             .rarity(Rarity.EPIC)
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MODID, "heart_crystal")))
             .stacksTo(64));
 
     @Override
     public void onInitialize()
     {
         HeartCrystalsCommon.init();
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal_dust"), HEART_CRYSTAL_DUST);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal_shard"), HEART_CRYSTAL_SHARD);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MODID, "heart_crystal"), HEART_CRYSTAL);
+        Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(MODID, "heart_crystal_dust"), HEART_CRYSTAL_DUST);
+        Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(MODID, "heart_crystal_shard"), HEART_CRYSTAL_SHARD);
+        Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(MODID, "heart_crystal"), HEART_CRYSTAL);
 
 
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries ->
         {
             entries.accept(new ItemStack(HEART_CRYSTAL_DUST));
             entries.accept(new ItemStack(HEART_CRYSTAL_SHARD));
@@ -57,7 +59,7 @@ public class HeartCrystalsFabric implements ModInitializer
 
         final LootPool.Builder loot = new LootPool.Builder()
                 .setRolls(UniformGenerator.between(0, 4))
-                .with(LootItem.lootTableItem(HEART_CRYSTAL_SHARD).build());
+                .add(LootItem.lootTableItem(HEART_CRYSTAL_SHARD).build());
 
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) ->
         {
@@ -67,14 +69,13 @@ public class HeartCrystalsFabric implements ModInitializer
             }
         });
 
-
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) ->
         {
             if (!(entity instanceof Player player))
             {
                 return;
             }
-            final HealthState state = HealthState.get(world.getServer());
+            final HealthData state = HealthData.get(world);
             final String s = player.getScoreboardName();
             if (!state.map.containsKey(s))
             {
@@ -84,7 +85,7 @@ public class HeartCrystalsFabric implements ModInitializer
 
         ServerPlayerEvents.COPY_FROM.register(((oldPlayer, newPlayer, alive) ->
         {
-            final HealthState state = HealthState.get(newPlayer.server);
+            final HealthData state = HealthData.get(newPlayer.level());
             final String s = newPlayer.getScoreboardName();
             final int v;
             if (!state.map.containsKey(s))

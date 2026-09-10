@@ -8,7 +8,7 @@
     "n643064"
   ],
   "contact": {
-    "homepage": "https://github.com/n643064/HeartCrystals",
+    "homepage": "https://modrinth.com/mod/heart-crystals",
     "sources": "https://github.com/n643064/HeartCrystals"
   },
   "license": "GPLv3",
@@ -16,13 +16,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "n643064.heart_crystals_fabric.HeartCrystalsFabric"
+      "n643064.heart_crystals.HeartCrystalsFabric"
     ]
   },
   "mixins": [
   ],
   "depends": {
-    "fabric": "*",
-    "minecraft": ">=1.21"
+    "fabric-api": "*",
+    "minecraft": ">=26.2"
   }
 }

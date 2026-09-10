@@ -7,9 +7,7 @@
     "DDD"
   ],
   "key": {
-    "D": {
-      "item": "heart_crystals:heart_crystal_dust"
-    }
+    "D": "heart_crystals:heart_crystal_dust"
   },
   "result": {
     "id": "heart_crystals:heart_crystal_shard",

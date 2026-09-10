@@ -7,9 +7,7 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "heart_crystals:heart_crystal_shard"
-    }
+    "S": "heart_crystals:heart_crystal_shard"
   },
   "result": {
     "id": "heart_crystals:heart_crystal",
