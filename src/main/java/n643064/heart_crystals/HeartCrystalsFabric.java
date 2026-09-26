@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.Objects;
 
@@ -58,7 +58,7 @@ public class HeartCrystalsFabric implements ModInitializer
         });
 
         final LootPool.Builder loot = new LootPool.Builder()
-                .setRolls(UniformGenerator.between(0, 4))
+                .setRolls(ContextIntProviders.between(0, 4))
                 .add(LootItem.lootTableItem(HEART_CRYSTAL_SHARD).build());
 
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) ->
