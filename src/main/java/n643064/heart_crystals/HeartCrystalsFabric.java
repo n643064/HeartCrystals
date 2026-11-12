@@ -63,7 +63,7 @@ public class HeartCrystalsFabric implements ModInitializer
 
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) ->
         {
-            if (CONFIG.addHeartCrystalShardsToDungeonLoot() && DUNGEON_LOOT.contains(key))
+            if (CONFIG.addHeartCrystalShardsToDungeonLoot() && DUNGEON_LOOT.contains(key.identifier()))
             {
                 tableBuilder.withPool(loot);
             }
@@ -75,7 +75,7 @@ public class HeartCrystalsFabric implements ModInitializer
             {
                 return;
             }
-            final HealthData state = HealthData.get(world);
+            final HealthData state = HealthData.get(world.getServer().overworld());
             final String s = player.getScoreboardName();
             if (!state.map.containsKey(s))
             {
@@ -85,7 +85,7 @@ public class HeartCrystalsFabric implements ModInitializer
 
         ServerPlayerEvents.COPY_FROM.register(((oldPlayer, newPlayer, alive) ->
         {
-            final HealthData state = HealthData.get(newPlayer.level());
+            final HealthData state = HealthData.get(newPlayer.level().getServer().overworld());
             final String s = newPlayer.getScoreboardName();
             final int v;
             if (!state.map.containsKey(s))
