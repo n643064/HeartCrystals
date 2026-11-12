@@ -24,7 +24,6 @@ import java.util.Objects;
 
 import static n643064.heart_crystals.Config.CONFIG;
 import static n643064.heart_crystals.HeartCrystalsCommon.*;
-import static net.minecraft.world.level.Level.OVERWORLD;
 
 public class HeartCrystalsFabric implements ModInitializer
 {
@@ -76,7 +75,7 @@ public class HeartCrystalsFabric implements ModInitializer
             {
                 return;
             }
-            final HealthData state = HealthData.get(world);
+            final HealthData state = HealthData.get(world.getServer().overworld());
             final String s = player.getScoreboardName();
             if (!state.map.containsKey(s))
             {
@@ -86,7 +85,7 @@ public class HeartCrystalsFabric implements ModInitializer
 
         ServerPlayerEvents.COPY_FROM.register(((oldPlayer, newPlayer, alive) ->
         {
-            final HealthData state = HealthData.get(newPlayer.level().getServer().getLevel(OVERWORLD));
+            final HealthData state = HealthData.get(newPlayer.level().getServer().overworld());
             final String s = newPlayer.getScoreboardName();
             final int v;
             if (!state.map.containsKey(s))

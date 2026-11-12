@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import static n643064.heart_crystals.Config.CONFIG;
-import static net.minecraft.world.level.Level.OVERWORLD;
 
 
 public class HeartCrystalItem extends Item
@@ -35,7 +34,7 @@ public class HeartCrystalItem extends Item
         {
             return InteractionResult.FAIL;
         }
-        final HealthData state = HealthData.get(Objects.requireNonNull(player.level().getServer()).getLevel(OVERWORLD));
+        final HealthData state = HealthData.get(Objects.requireNonNull(player.level().getServer()).overworld());
         final String name = player.getScoreboardName();
         final int v;
         if (state.map.containsKey(name))
