@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import static n643064.heart_crystals.Config.CONFIG;
 import static n643064.heart_crystals.HeartCrystalsCommon.*;
+import static net.minecraft.world.level.Level.OVERWORLD;
 
 public class HeartCrystalsFabric implements ModInitializer
 {
@@ -63,7 +64,7 @@ public class HeartCrystalsFabric implements ModInitializer
 
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) ->
         {
-            if (CONFIG.addHeartCrystalShardsToDungeonLoot() && DUNGEON_LOOT.contains(key))
+            if (CONFIG.addHeartCrystalShardsToDungeonLoot() && DUNGEON_LOOT.contains(key.identifier()))
             {
                 tableBuilder.withPool(loot);
             }
@@ -85,7 +86,7 @@ public class HeartCrystalsFabric implements ModInitializer
 
         ServerPlayerEvents.COPY_FROM.register(((oldPlayer, newPlayer, alive) ->
         {
-            final HealthData state = HealthData.get(newPlayer.level());
+            final HealthData state = HealthData.get(newPlayer.level().getServer().getLevel(OVERWORLD));
             final String s = newPlayer.getScoreboardName();
             final int v;
             if (!state.map.containsKey(s))
