@@ -3,8 +3,6 @@ package n643064.heart_crystals;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import static n643064.heart_crystals.Config.CONFIG;
+import static net.minecraft.world.level.Level.OVERWORLD;
 
 
 public class HeartCrystalItem extends Item
@@ -36,7 +35,7 @@ public class HeartCrystalItem extends Item
         {
             return InteractionResult.FAIL;
         }
-        final HealthData state = HealthData.get((ServerLevel) player.level());
+        final HealthData state = HealthData.get(Objects.requireNonNull(player.level().getServer()).getLevel(OVERWORLD));
         final String name = player.getScoreboardName();
         final int v;
         if (state.map.containsKey(name))
